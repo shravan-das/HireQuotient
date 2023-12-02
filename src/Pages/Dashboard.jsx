@@ -3,6 +3,7 @@ import Content from '../Components/Content';
 import axios from 'axios';
 import Pagination from '../Components/Pagination';
 import EditModal from '../Components/EditModal';
+import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -116,7 +117,7 @@ const Dashboard = () => {
           onClick={handleSearch}
           className="bg-blue-500 text-white px-4 py-2 ml-2 rounded search-icon"
         >
-          Search
+          <FaSearch />
         </button>
       </div>
       {noContent ? (
