@@ -103,7 +103,7 @@ const Content = ({ users, onDeleteUser, onEditUser }) => {
 
       <div className="text-gray-600 font-bold pl-4 mt-2">
         {selectedRows.length > 0
-          ? `${selectedRows.length} of ${users.length} rows selected`
+          ? `${selectedRows.length} of ${users.length} row(s) selected`
           : `0 of ${users.length} row(s) selected`}
       </div>
     </div>
