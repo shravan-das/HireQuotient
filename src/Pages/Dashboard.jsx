@@ -5,6 +5,7 @@ import Pagination from '../Components/Pagination';
 import EditModal from '../Components/EditModal';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import loader from '../Components/loader';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const [maxPaginationPages, setMaxPaginationPages] = useState(5);
   const [editingUser, setEditingUser] = useState(null);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,8 +29,10 @@ const Dashboard = () => {
         const data = response.data;
         setUsers(data);
         setFilteredUsers(data);
+        setLoading(false); 
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false);
       }
     };
     fetchData();
@@ -58,7 +62,7 @@ const Dashboard = () => {
     setFilteredUsers(filteredResults);
     setCurrentPage(1);
     setNoContent(filteredResults.length === 0);
-    if (searchTerm.trim() === '') {
+    if (searchTerm.trim() === '' || filteredResults.length === 0) {
       setMaxPaginationPages(5);
     } else {
       setMaxPaginationPages(3);
@@ -102,51 +106,57 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto mt-8">
-        <button
-        className="bg-blue-500 text-white px-4 py-2 rounded absolute top-0 left-0 m-4"
-        onClick={handleBack}
-      >
-        Back
-      </button>
-      <h1 className="text-2xl font-bold text-center text-yellow-400 mb-4">Admin Dashboard</h1>
-      <div className="mb-4 flex">
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyPress={handleKeyPress}
-          className="border p-2 w-1/2"
-        />
-        <button
-          onClick={handleSearch}
-          className="bg-blue-500 text-white px-4 py-2 ml-2 rounded search-icon"
-        >
-          <FaSearch />
-        </button>
-      </div>
-      {noContent ? (
-        <p className="text-center font-bold">No content to display</p>
+      {loading ? ( 
+        <loader/>
       ) : (
         <>
-          <Content
-            users={currentUsers}
-            onDeleteUser={handleDeleteUser}
-            onEditUser={handleEditUser}
-          />
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.min(totalPages, maxPaginationPages)}
-            onPageChange={handlePageChange}
-          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded absolute top-0 left-0 m-4"
+            onClick={handleBack}
+          >
+            Back
+          </button>
+          <h1 className="text-2xl font-bold text-center text-yellow-400 mb-4">Admin Dashboard</h1>
+          <div className="mb-4 flex">
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="border p-2 w-1/2"
+            />
+            <button
+              onClick={handleSearch}
+              className="bg-blue-500 text-white px-4 py-2 ml-2 rounded search-icon"
+            >
+              <FaSearch />
+            </button>
+          </div>
+          {noContent ? (
+            <p className="text-center font-bold">No content to display</p>
+          ) : (
+            <>
+              <Content
+                users={currentUsers}
+                onDeleteUser={handleDeleteUser}
+                onEditUser={handleEditUser}
+              />
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.min(totalPages, maxPaginationPages)}
+                onPageChange={handlePageChange}
+              />
+            </>
+          )}
+          {editModalVisible && (
+            <EditModal
+              user={editingUser}
+              onClose={handleEditModalClose}
+              onUpdate={handleUserUpdate}
+            />
+          )}
         </>
-      )}
-      {editModalVisible && (
-        <EditModal
-          user={editingUser}
-          onClose={handleEditModalClose}
-          onUpdate={handleUserUpdate}
-        />
       )}
     </div>
   );
