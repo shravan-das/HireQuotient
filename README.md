@@ -18,7 +18,7 @@ Follow the steps below to set up and run the web application:
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/shravan-das/HireQuotient.git>
    ```
 
 2. Navigate to the client directory:
