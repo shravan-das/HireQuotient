@@ -54,12 +54,17 @@ const Dashboard = () => {
         user.email.toLowerCase().includes(searchTerm) ||
         user.role.toLowerCase().includes(searchTerm)
     );
-
+  
     setFilteredUsers(filteredResults);
     setCurrentPage(1);
     setNoContent(filteredResults.length === 0);
-    setMaxPaginationPages(3);
+    if (searchTerm.trim() === '') {
+      setMaxPaginationPages(5);
+    } else {
+      setMaxPaginationPages(3);
+    }
   };
+  
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
