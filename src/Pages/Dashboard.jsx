@@ -3,6 +3,7 @@ import Content from '../Components/Content';
 import axios from 'axios';
 import Pagination from '../Components/Pagination';
 import EditModal from '../Components/EditModal';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [maxPaginationPages, setMaxPaginationPages] = useState(5);
   const [editingUser, setEditingUser] = useState(null);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,6 +84,9 @@ const Dashboard = () => {
     setEditModalVisible(false);
     setEditingUser(null);
   };
+  const handleBack = () =>{
+    navigate('/');
+  }
 
   // Pagination Logic
   const indexOfLastUser = currentPage * usersPerPage;
@@ -91,11 +96,17 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto mt-8">
+        <button
+        className="bg-blue-500 text-white px-4 py-2 rounded absolute top-0 left-0 m-4"
+        onClick={handleBack}
+      >
+        Back
+      </button>
       <h1 className="text-2xl font-bold text-center text-yellow-400 mb-4">Admin Dashboard</h1>
       <div className="mb-4 flex">
         <input
           type="text"
-          placeholder="Search by name, email, or role"
+          placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyPress={handleKeyPress}
