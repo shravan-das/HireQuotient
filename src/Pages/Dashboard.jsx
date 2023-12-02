@@ -5,7 +5,7 @@ import Pagination from '../Components/Pagination';
 import EditModal from '../Components/EditModal';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import loader from '../Components/loader';
+import Loading from '../Components/Loading';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -107,7 +107,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto mt-8">
       {loading ? ( 
-        <loader/>
+        <Loading/>
       ) : (
         <>
           <button
